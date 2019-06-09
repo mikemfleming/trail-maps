@@ -30,4 +30,8 @@ module.exports = [
   [37.60534, -108.00638],
   [37.41658, -107.97279],
   [37.33119, -107.90295]
-].map(t => ({ lat: t[0], lng: t[1] }));
+].map(t => ({
+  lat: t[0],
+  lng: t[1],
+  text: 'Lorem ipsum dolor amet yuccie semiotics beard, copper mug shabby chic art party master cleanse salvia vegan succulents franzen. Disrupt occupy drinking vinegar hella. Gentrify food truck cred ramps, YOLO chicharrones craft beer. Heirloom literally selvage, mustache poutine readymade four loko cloud bread pabst hella.'
+}));

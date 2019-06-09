@@ -1,8 +1,9 @@
 import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import getConfig from 'next/config';
 
 import MapMarker from './map-marker';
+import MarkerModal from './marker-modal';
 
 const { publicRuntimeConfig: { MAPS_KEY } } = getConfig();
 
@@ -15,17 +16,12 @@ export default compose(
   }),
   withScriptjs,
   withGoogleMap
-)(({ currentCoordinates, updateCoordinates, waypoints }) =>
+)(({ onMarkerClick, waypoints, currentWaypoint }) =>
   <GoogleMap
     defaultZoom={8}
-    center={currentCoordinates}
+    center={currentWaypoint}
     defaultMapTypeId="satellite"
   >
-    {waypoints.map(({ lat, lng }) => (
-      <MapMarker
-        updateCoordinates={updateCoordinates}
-        markerCoordinates={{ lat, lng }}
-      />
-    ))}
+    {waypoints.map((waypoint) => <MapMarker openMarkerModal={MarkerModal} onMarkerClick={onMarkerClick} waypoint={waypoint} />)}
   </GoogleMap>
 )

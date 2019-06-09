@@ -1,4 +1,5 @@
 import Map from '../components/map';
+import MarkerModal from '../components/marker-modal';
 import waypoints from '../data';
 
 export default class Home extends React.Component {
@@ -6,20 +7,41 @@ export default class Home extends React.Component {
     super(props)
 
     this.state = {
-      currentCoordinates: {
+      currentWaypoint: {
         lat: 38.45,
-        lng: -106.6
-      }
+        lng: -106.6,
+        text: ''
+      },
+      modalIsOpen: false
     };
+  }
+
+  onMarkerClick (currentWaypoint) {
+    this.openModal();
+    this.setState({ currentWaypoint });
+  }
+
+  openModal () {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal () {
+    this.setState({ modalIsOpen: false });
   }
 
   render () {
     return (
       <div style={{ display: 'flex' }}>
+        <MarkerModal
+          isOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal.bind(this)}
+          waypoint={this.state.currentWaypoint}
+        />
         <Map
           waypoints={waypoints}
+          currentWaypoint={this.state.currentWaypoint}
           currentCoordinates={this.state.currentCoordinates}
-          updateCoordinates={(currentCoordinates) => this.setState({ currentCoordinates })}
+          onMarkerClick={this.onMarkerClick.bind(this)}
         />
       </div>
     );
