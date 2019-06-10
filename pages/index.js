@@ -17,6 +17,7 @@ export default class Home extends React.Component {
   }
 
   onMarkerClick (currentWaypoint) {
+    // TODO: animate zoom map to marker slightly
     this.openModal();
     this.setState({ currentWaypoint });
   }
@@ -31,7 +32,7 @@ export default class Home extends React.Component {
 
   render () {
     return (
-      <div style={{ display: 'flex' }}>
+      <div>
         <MarkerModal
           isOpen={this.state.modalIsOpen}
           closeModal={this.closeModal.bind(this)}
