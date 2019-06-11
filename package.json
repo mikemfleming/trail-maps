@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "source env.sh && next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "aws:zip": "cd ./lambda && zip -r ./lambda.zip . && cd .. && mv ./lambda/lambda.zip .",
+    "aws:deploy": "npm run aws:zip && terraform plan && terraform apply"
   },
   "keywords": [],
   "author": "",
