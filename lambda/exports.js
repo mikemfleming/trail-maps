@@ -1,55 +1,24 @@
-const s3 = require('aws-sdk/clients/s3');
-const parse = require('parse-email');
+const s3 = require('./s3');
+const ddb = require('./ddb');
+const parser = require('./parser');
 
-const s3Client = new s3();
-
-function getFileKeys () {
-  return new Promise((resolve, reject) => {
-    s3Client.listObjects({ Bucket: 'trail-maps-ses-bucket' }, (err ,data) => {
-      if (err) reject(err);
-      resolve(data);
-    });
-  }).then(({ Contents }) => Contents.map(o => o.Key));
-}
-
-function getFileFromS3 (key) {
-  return new Promise((resolve, reject) => {
-    s3Client.getObject({
-      Bucket: 'trail-maps-ses-bucket',
-      Key: key
-    }, (err, data) => {
-      if (err) reject(err);
-      resolve(data);
-    });
-  }).then(f => f.Body.toString());
-}
-
-// [ 'attachments',
-//   'headers',
-//   'html',
-//   'text',
-//   'textAsHtml',
-//   'subject',
-//   'references',
-//   'date',
-//   'to',
-//   'from',
-//   'messageId',
-//   'inReplyTo' ]
-function parseFile (file) {
-  return parse(file)
-    .then(({ subject, text, date, messageId }) => ({ subject, text, date, messageId }));
+function log(msg, obj) {
+  console.log('~~~~~~~~~~', msg, JSON.stringify(obj, null, 4));
 }
 
 exports.handleEmail = async (event, context) => {
-  console.log('~~~~~~~~~~ event', event);
-  console.log('~~~~~~~~~~ context', context);
+  log('event:', event);
+  log('context:', context);
 
-  const keys = await getFileKeys();
-  const files = await Promise.all(keys.map(getFileFromS3));
-  const parsed = await Promise.all(files.map(parseFile));
+  const keys = await s3.getFileKeys();
+  const files = await Promise.all(keys.map(s3.getFileFromKey));
+  const parsedFiles = await Promise.all(files.map(parser));
 
-  console.log('Message received from SNS:', parsed); 
+  log('parsed files:', parsedFiles); 
+
+  await Promise.all(parsedFiles.map(ddb.writeItem))
+    .then(d => log('wrote # items to db:', d.length))
+    .catch(e => log('failed to write to db:', e));
 
   return 'Ok';
 };
