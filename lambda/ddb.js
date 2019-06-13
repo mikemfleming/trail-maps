@@ -8,7 +8,9 @@ exports.writeItem = function (item) {
         emailId: { N: String(new Date().getTime()) },
         subject: { S: item.subject },
         text: { S: item.text },
-        date: { S: String(item.date) }
+        date: { S: String(item.date) },
+        lat: { S: item.lat },
+        lng: { S: item.lng }
       },
       TableName: 'trail-maps'
     }, (err, data) => {
