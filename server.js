@@ -11,7 +11,16 @@ app.prepare().then(() => {
   const server = express()
 
   server.get('/api/waypoints', (req, res) => {
-    return ddb.getAll().then(data => res.json(data))
+    return ddb.getAll()
+      .then(({ Items }) => {
+        Items = Items.map(item => ({
+          ...item,
+          lat: Number(item.lat.S),
+          lng: Number(item.lng.S)
+        }));
+        
+        return res.json({ waypoints: Items})
+      });
   })
 
   server.get('*', (req, res) => {

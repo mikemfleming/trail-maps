@@ -18,7 +18,7 @@ export default compose(
   withGoogleMap
 )(({ onMarkerClick, waypoints, currentWaypoint }) =>
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={12}
     center={currentWaypoint}
     defaultMapTypeId="satellite"
   >
