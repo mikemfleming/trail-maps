@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "source env.sh && next",
+    "dev": "source env.sh && node server.js",
     "build": "next build",
     "start": "next start",
     "aws:zip": "cd ./lambda && zip -r ./lambda.zip . && cd .. && mv ./lambda/lambda.zip .",

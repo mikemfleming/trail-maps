@@ -19,3 +19,12 @@ exports.writeItem = function (item) {
     })
   })
 }
+
+exports.getAll = function () {
+  return new Promise((resolve, reject) => {
+    ddbClient.scan({ TableName: 'trail-maps' }, (err, data) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
+};
