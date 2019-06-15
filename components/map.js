@@ -5,7 +5,7 @@ import getConfig from 'next/config';
 import MapMarker from './map-marker';
 import MarkerModal from './marker-modal';
 
-const { publicRuntimeConfig: { MAPS_KEY } } = getConfig();
+const MAPS_KEY = process.env.MAPS_KEY || getConfig().publicRuntimeConfig.MAPS_KEY
 
 export default compose(
   withProps({
