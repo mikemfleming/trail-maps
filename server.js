@@ -7,20 +7,25 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+function transform (data) {
+  const { Items } = data;
+
+  return {
+    waypoints: Items.map(item => ({
+      ...item,
+      text: item.text.S.split('\n\n'),
+      lat: Number(item.lat.N),
+      lng: Number(item.lng.N)
+    }))
+  };
+}
+
 app.prepare().then(() => {
   const server = express()
 
   server.get('/api/waypoints', (req, res) => {
     return ddb.getAll()
-      .then(({ Items }) => {
-        Items = Items.map(item => ({
-          ...item,
-          lat: Number(item.lat.S),
-          lng: Number(item.lng.S)
-        }));
-        
-        return res.json({ waypoints: Items})
-      });
+      .then((data) => res.json(transform(data)));
   })
 
   server.get('*', (req, res) => {

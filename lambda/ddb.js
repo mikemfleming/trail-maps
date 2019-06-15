@@ -1,6 +1,6 @@
 const ddb = require('aws-sdk/clients/dynamodb');
 const ddbClient = new ddb({ region: 'us-east-1' });
-
+const tableName = 'trail-maps-coordinates';
 exports.writeItem = function (item) {
   return new Promise((resolve, reject) => {
     ddbClient.putItem({
@@ -9,10 +9,10 @@ exports.writeItem = function (item) {
         subject: { S: item.subject },
         text: { S: item.text },
         date: { S: String(item.date) },
-        lat: { S: item.lat },
-        lng: { S: item.lng }
+        lat: { N: String(item.lat) },
+        lng: { N: String(item.lng) }
       },
-      TableName: 'trail-maps'
+      TableName: tableName
     }, (err, data) => {
       if (err) reject(err);
       resolve(data);
@@ -22,7 +22,7 @@ exports.writeItem = function (item) {
 
 exports.getAll = function () {
   return new Promise((resolve, reject) => {
-    ddbClient.scan({ TableName: 'trail-maps' }, (err, data) => {
+    ddbClient.scan({ TableName: tableName }, (err, data) => {
       if (err) reject(err);
       resolve(data);
     });

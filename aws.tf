@@ -37,6 +37,7 @@ resource "aws_lambda_function" "trail_maps_email_handler" {
   role = "${aws_iam_role.trail_maps_lambda.arn}"
   handler = "exports.handleEmail"
   source_code_hash = "${filebase64sha256("lambda.zip")}"
+  timeout = 10
 
   runtime = "nodejs10.x"
 }

@@ -6,7 +6,7 @@ export default function MakerModal ({ isOpen, closeModal, waypoint }) {
       isOpen={isOpen}
       onRequestClose={closeModal}
     >
-      {waypoint.text}
+      {waypoint.text.map(t => <p>{t}</p>)}
     </Modal>
   );
 }

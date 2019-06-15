@@ -7,13 +7,13 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props)
 
-    console.log(props)
+    // console.log(props)
 
     this.state = {
       currentWaypoint: {
         lat: 30.2672,
         lng: -97.7431,
-        text: ''
+        text: []
       },
       waypoints: props.waypoints,
       modalIsOpen: false
