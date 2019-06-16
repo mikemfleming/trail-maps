@@ -1,5 +1,4 @@
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import axios from 'axios'
 
 import Map from '../components/map';
 import MarkerModal from '../components/marker-modal';
@@ -24,11 +23,11 @@ export default class Home extends React.Component {
   }
 
   static async getInitialProps () {
-    // eslint-disable-next-line no-undef
-    //   .then(({ data }) => data);
-    const res = await fetch('/api/waypoints')
-    const json = await res.json()
-    return json;
+    return await axios({
+      method: 'get',
+      url: '//localhost:3000/api/waypoints'
+    })
+      .then(({ data }) => data);
   }
 
   onMarkerClick (currentWaypoint) {
