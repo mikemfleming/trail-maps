@@ -1,7 +1,10 @@
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 import Map from '../components/map';
 import MarkerModal from '../components/marker-modal';
 
-import fetch from 'isomorphic-unfetch'
+// import fetch from 'isomorphic-unfetch'
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -22,7 +25,8 @@ export default class Home extends React.Component {
 
   static async getInitialProps () {
     // eslint-disable-next-line no-undef
-    const res = await fetch('http://localhost:3000/api/waypoints')
+    //   .then(({ data }) => data);
+    const res = await fetch('/api/waypoints')
     const json = await res.json()
     return json;
   }
