@@ -25,7 +25,7 @@ export default class Home extends React.Component {
   static async getInitialProps () {
     return await axios({
       method: 'get',
-      url: '//localhost:3000/api/waypoints'
+      url: 'https://sleepy-lake-19367.herokuapp.com/api/waypoints'
     })
       .then(({ data }) => data);
   }
