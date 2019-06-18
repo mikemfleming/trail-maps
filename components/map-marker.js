@@ -5,7 +5,6 @@ export default function MapMarker ({ waypoint, onMarkerClick }) {
 
   return (
     <Marker
-      key={lat}
       onClick={() => onMarkerClick(waypoint)}
       position={{ lat, lng }}
     />

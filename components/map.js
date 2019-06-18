@@ -15,12 +15,20 @@ export default compose(
   }),
   withScriptjs,
   withGoogleMap
-)(({ onMarkerClick, waypoints, currentWaypoint, currentZoom }) =>
+)(({ onMarkerClick, waypoints, currentWaypoint, currentZoom, updateZoom, updateCenter }) => 
   <GoogleMap
-    zoom={currentWaypoint ? 13: 15}
-    center={currentWaypoint}
-    defaultMapTypeId="satellite"
+  onZoomChanged={function () { updateZoom(this.zoom); }}
+  zoom={currentZoom}
+  onCenterChanged={function () { updateCenter(this.center) }}
+  center={currentWaypoint}
+  defaultMapTypeId="satellite"
   >
-    {waypoints.map((waypoint) => <MapMarker onMarkerClick={onMarkerClick} waypoint={waypoint} />)}
+    {waypoints.map((waypoint, idx) => (
+      <MapMarker
+        key={`waypoint-${idx}`}
+        onMarkerClick={onMarkerClick}
+        waypoint={waypoint}
+      />
+    ))}
   </GoogleMap>
 )

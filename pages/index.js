@@ -28,20 +28,35 @@ export default class Home extends React.Component {
   }
 
   onMarkerClick (currentWaypoint) {
-    console.log('waypoint is', currentWaypoint)
-    // TODO: animate zoom map to marker slightly
     this.setState({
-      currentWaypoint,
+      currentWaypoint: currentWaypoint|| this.state.currentWaypoint, // this keeps everything centered
+      currentZoom: 20,
       sidebarIsOpen: !this.state.sidebarIsOpen
     });
   }
 
+  updateZoom (newZoom) {
+    this.setState({ currentZoom: newZoom });
+  }
+
+  updateCenter (center) {    
+    const lat = center.lat();
+    const lng = center.lng();
+
+    this.setState({
+      currentWaypoint: {
+        lat,
+        lng,
+        text: []
+      }
+    })
+  }
+
   render () {
-    console.log(this.state.currentWaypoint)
     return (
       <Sidebar
         open={this.state.sidebarIsOpen}
-        sidebar={this.state.currentWaypoint && this.state.currentWaypoint.text.map(t => <p>{t}</p>)}
+        sidebar={this.state.currentWaypoint && this.state.currentWaypoint.text.map((t, i) => <p key={`p-${i}`} >{t}</p>)}
         onSetOpen={this.onMarkerClick.bind(this)}
         styles={{ sidebar: {
           background: 'white',
@@ -50,6 +65,9 @@ export default class Home extends React.Component {
         } }}
       >
         <Map
+          updateCenter={this.updateCenter.bind(this)}
+          updateZoom={this.updateZoom.bind(this)}
+          currentZoom={this.state.currentZoom}
           waypoints={this.state.waypoints}
           currentWaypoint={this.state.currentWaypoint}
           currentCoordinates={this.state.currentCoordinates}
