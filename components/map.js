@@ -3,7 +3,6 @@ import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import getConfig from 'next/config';
 
 import MapMarker from './map-marker';
-import MarkerModal from './marker-modal';
 
 const MAPS_KEY = process.env.MAPS_KEY || getConfig().publicRuntimeConfig.MAPS_KEY
 
@@ -22,6 +21,6 @@ export default compose(
     center={currentWaypoint}
     defaultMapTypeId="satellite"
   >
-    {waypoints.map((waypoint) => <MapMarker openMarkerModal={MarkerModal} onMarkerClick={onMarkerClick} waypoint={waypoint} />)}
+    {waypoints.map((waypoint) => <MapMarker onMarkerClick={onMarkerClick} waypoint={waypoint} />)}
   </GoogleMap>
 )
