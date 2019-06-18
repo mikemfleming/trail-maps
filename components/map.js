@@ -15,9 +15,9 @@ export default compose(
   }),
   withScriptjs,
   withGoogleMap
-)(({ onMarkerClick, waypoints, currentWaypoint }) =>
+)(({ onMarkerClick, waypoints, currentWaypoint, currentZoom }) =>
   <GoogleMap
-    defaultZoom={12}
+    zoom={currentWaypoint ? 13: 15}
     center={currentWaypoint}
     defaultMapTypeId="satellite"
   >

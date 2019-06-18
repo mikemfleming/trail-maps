@@ -12,7 +12,8 @@ export default class Home extends React.Component {
         lat: 30.2672,
         lng: -97.7431,
         text: []
-      },  
+      },
+      currentZoom: 13,
       waypoints: props.waypoints,
       sidebarIsOpen: false
     };
@@ -27,6 +28,7 @@ export default class Home extends React.Component {
   }
 
   onMarkerClick (currentWaypoint) {
+    console.log('waypoint is', currentWaypoint)
     // TODO: animate zoom map to marker slightly
     this.setState({
       currentWaypoint,
@@ -35,6 +37,7 @@ export default class Home extends React.Component {
   }
 
   render () {
+    console.log(this.state.currentWaypoint)
     return (
       <Sidebar
         open={this.state.sidebarIsOpen}
