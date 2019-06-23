@@ -9,11 +9,11 @@ export default class Home extends React.Component {
 
     this.state = {
       currentWaypoint: {
-        lat: 30.2672,
-        lng: -97.7431,
+        lat: 46.85,
+        lng: -121.75,
         text: []
       },
-      currentZoom: 13,
+      currentZoom: 11,
       waypoints: props.waypoints,
       sidebarIsOpen: false
     };
